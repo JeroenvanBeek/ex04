@@ -41,16 +41,16 @@ ErrCode TestNr(char *numberOfTimes)
 {
   ErrCode fout = NO_ERR;
   if(strtol(numberOfTimes, NULL, 10) <= 0) fout = ERR_NR;
-  return fout;
 
+  return fout;
 }
 
 
 // Test whether an argument contains only one character:
-ErrCode TestChar(char *printChar) {
+ErrCode TestChar(char *printChar) 
+{
   ErrCode fout = NO_ERR;
-  
-  // Add the missing code
+  if(strlen(printChar) != 1) fout = ERR_CHAR;
   
   return fout;
 }
