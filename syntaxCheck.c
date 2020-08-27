@@ -37,12 +37,12 @@ ErrCode TestType(char *printMethod) {
 
 
 // Test whether an argument contains a non-negative number:
-ErrCode TestNr(char *numberOfTimes) {
+ErrCode TestNr(char *numberOfTimes) 
+{
   ErrCode fout = NO_ERR;
-  
-  // Add the missing code
-  
+  if(strtol(numberOfTimes, NULL, 10) <= 0) fout = ERR_NR;
   return fout;
+
 }
 
 
