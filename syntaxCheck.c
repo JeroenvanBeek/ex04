@@ -26,14 +26,12 @@ ErrCode TestType(char *printMethod) {
     case 'p':
     case 'w':
       fout = NO_ERR;
-      
     break;
-    
+    default:
+    fout = ERR_TYPE;
     }
   }
 
-  // Add the missing code
-  
   return fout;
 }
 
