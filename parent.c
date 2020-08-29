@@ -15,16 +15,13 @@
 int main(int argc, char *argv[]) 
 { 
   int niceIncr; 
-  unsigned long int numOfTimes;
-  char printMethod, printChar;
   ErrCode err;
   
   err = SyntaxCheck(argc, argv);  // Check the command-line parameters
 
 if(err != NO_ERR) DisplayError(err); // Print an error message
-  
-    printMethod = argv[1][0];
-    numOfTimes = strtoul(argv[2], NULL, 10);  // String to unsigned long
+
+
     niceIncr = (int) strtoul(argv[3], NULL, 10);
 
     
@@ -36,13 +33,24 @@ case -1:
 
 //child process
 case 0:
-    nice(niceIncr * 1);
-    printChar = argv[5][0];
-    PrintCharacters(printMethod, numOfTimes, printChar);  // Print character printChar numOfTimes times using method printMethod
-break;
+    execl("../ex02/display", "display", argv[1], argv[2], argv[4], NULL);
+    perror("execl()");  // If you make it here, something went wrong
+    exit(1);
 
 default:
+switch(fork())
+{
+case -1:
+    printf("fork failed.\n");
+    exit(1);
+    
+case 0:
+    nice(niceIncr * 1);
+    execl("../ex02/display", "display", argv[1], argv[2], argv[5], NULL);
+    perror("execl()");  // If you make it here, something went wrong
+    exit(1);
 
+default:
 switch(fork())
 {
 case -1:
@@ -51,20 +59,16 @@ case -1:
     
 case 0:
     nice(niceIncr * 2);
-    printChar = argv[6][0];
-    PrintCharacters(printMethod, numOfTimes, printChar);  // Print character printChar numOfTimes times using method printMethod
-break;
+    execl("../ex02/display", "display", argv[1], argv[2], argv[6], NULL);
+    perror("execl()");  // If you make it here, something went wrong
+    exit(1);  
 
 default:
-    
-    printChar = argv[4][0];
-    PrintCharacters(printMethod, numOfTimes, printChar);  // Print character printChar numOfTimes times using method printMethod
-    
-      // Wait for two children:
       wait(NULL);
       wait(NULL);
-      printf("\n");  // Newline at end
-
+      wait(NULL);
+break;
+}
 break;
 }
 break;    
